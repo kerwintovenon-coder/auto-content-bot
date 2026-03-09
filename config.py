@@ -37,8 +37,22 @@ class Config:
     # Logging
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 
-    # Existing Products List
+    # Existing Products with WordPress Category IDs
+    # These IDs are from milgrp.com WordPress installation
     EXISTING_PRODUCTS = [
+        {'name': 'garage floor', 'category_id': 28, 'slug': 'garage-floor-tiles'},
+        {'name': 'pvc flooring', 'category_id': 103, 'slug': 'pvc-flooring-roll'},
+        {'name': 'anti-slip mat', 'category_id': 96, 'slug': 'anti-slip-mats'},
+        {'name': 'oil absorbent', 'category_id': 155, 'slug': 'oil-absorbent-mats'},
+        {'name': 'ground system', 'category_id': 97, 'slug': 'workshop-floors'},
+        {'name': 'container house', 'category_id': 182, 'slug': 'container-houses'},
+        {'name': 'modular space', 'category_id': 181, 'slug': 'modular-space'},
+        {'name': 'hesco barrier', 'category_id': 205, 'slug': 'defensive-barrier'},
+        {'name': 'flood barrier', 'category_id': 204, 'slug': 'flood-control-barrier'}
+    ]
+
+    # Legacy list for compatibility
+    EXISTING_PRODUCT_NAMES = [
         'garage floor',
         'pvc flooring',
         'anti-slip mat',
@@ -117,6 +131,63 @@ class Config:
         'https://www.astm.org/',
         'https://www.ieee.org/',
     ]
+
+    # Category mappings for new high-margin products
+    # These categories will be created if they don't exist
+    NEW_PRODUCT_CATEGORIES = {
+        'industrial_equipment': {'name': 'Industrial Equipment', 'id': None},
+        'energy_storage': {'name': 'Energy & Storage', 'id': None},
+        'construction': {'name': 'Construction Materials', 'id': None},
+        'agricultural': {'name': 'Agricultural Equipment', 'id': None},
+        'medical': {'name': 'Medical Equipment', 'id': None},
+        'packaging': {'name': 'Packaging & Logistics', 'id': None},
+        'flooring': {'name': 'Flooring Solutions', 'id': None},
+        'safety': {'name': 'Safety & Protection', 'id': None},
+        'general_export': {'name': 'Export Products', 'id': None}
+    }
+
+    # Keyword to category mapping for new products
+    KEYWORD_CATEGORY_MAP = {
+        'laser cutting': 'industrial_equipment',
+        'cnc router': 'industrial_equipment',
+        'robot arm': 'industrial_equipment',
+        'forklift': 'industrial_equipment',
+        'hydraulic press': 'industrial_equipment',
+        'lithium battery': 'energy_storage',
+        'solar panel': 'energy_storage',
+        'wind turbine': 'energy_storage',
+        'energy storage': 'energy_storage',
+        'ev charging': 'energy_storage',
+        'prefab': 'construction',
+        'steel structure': 'construction',
+        'bridge': 'construction',
+        'acoustic panel': 'construction',
+        'fireproof door': 'construction',
+        'farming': 'agricultural',
+        'drone': 'agricultural',
+        'grain storage': 'agricultural',
+        'irrigation': 'agricultural',
+        'greenhouse': 'agricultural',
+        'hospital': 'medical',
+        'medical imaging': 'medical',
+        'diagnostic': 'medical',
+        'dental': 'medical',
+        'packaging': 'packaging',
+        'conveyor': 'packaging',
+        'warehouse': 'packaging',
+        'cold chain': 'packaging',
+        'container': 'packaging',
+        'vinyl plank': 'flooring',
+        'rubber flooring': 'flooring',
+        'carpet tile': 'flooring',
+        'artificial grass': 'flooring',
+        'sports floor': 'flooring',
+        'explosion proof': 'safety',
+        'safety shower': 'safety',
+        'fall protection': 'safety',
+        'dust collection': 'safety',
+        'soundproof': 'safety'
+    }
 
     @classmethod
     def validate(cls):

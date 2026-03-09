@@ -13,7 +13,7 @@ from typing import List, Dict, Optional
 class MarketResearch:
     """Market research for high-margin China export products"""
 
-    def __init__(self, existing_products: List[str], high_margin_products: List[str]):
+    def __init__(self, existing_products: List[Dict], high_margin_products: List[str]):
         self.existing_products = existing_products
         self.high_margin_products = high_margin_products
         self.history_file = Path(__file__).parent.parent / 'data' / 'history.json'
@@ -72,25 +72,34 @@ class MarketResearch:
         shuffled_products = self.existing_products.copy()
         random.shuffle(shuffled_products)
 
-        for product in shuffled_products:
+        for product_data in shuffled_products:
             if len(topics) >= count:
                 break
 
+            # Handle both dict and string formats for compatibility
+            if isinstance(product_data, dict):
+                product_name = product_data['name']
+                category_id = product_data.get('category_id')
+            else:
+                product_name = product_data
+                category_id = None
+
             # Generate topic with variation
             variation = random.choice(variations)
-            topic_title = variation.format(product=product.title())
+            topic_title = variation.format(product=product_name.title())
 
             # Create unique slug
-            base_slug = product.lower().replace(' ', '-')
+            base_slug = product_name.lower().replace(' ', '-')
             slug = f"{base_slug}-{random.randint(1000, 9999)}"
 
             if topic_title not in published:
                 topics.append({
                     'type': 'existing',
-                    'product': product,
+                    'product': product_name,
                     'title': topic_title,
                     'slug': slug,
-                    'keyword': product.lower()
+                    'keyword': product_name.lower(),
+                    'category_id': category_id
                 })
 
                 # Update history
